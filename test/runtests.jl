@@ -12,3 +12,4 @@ struct DummyState
 end
 
 include("test_optimisationState.jl")
+include("test_trace.jl")
