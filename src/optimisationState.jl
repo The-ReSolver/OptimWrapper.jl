@@ -10,7 +10,7 @@ struct FirstOrderOptimisationState <: OptimisationState
     stepSize::Float64
 end
 Base.show(io::IO, x::FirstOrderOptimisationState) = @printf io "|%10d   |   %5.2e  |  %5.5e  |  %5.5e  |" x.iteration x.stepSize x.objectiveValue x.gradientNorm
-Base.convert(::Type{FirstOrderOptimisationState}, state::Optim.OptimizationState{<:Any, <:Optim.FirstOrderOptimizer}, prevIteration) = FirstOrderOptimisationState(state.value, state.g_norm, prevIteration + 1, state.metadata["time"], state.metadata["Current step size"])
+Base.convert(::Type{FirstOrderOptimisationState}, state, prevIteration) = FirstOrderOptimisationState(prevIteration + 1, state.value, state.g_norm, state.metadata["time"], state.metadata["Current step size"])
 
 struct NelderMeadOptimisationState <: OptimisationState
     iteration::Int
@@ -20,4 +20,4 @@ struct NelderMeadOptimisationState <: OptimisationState
     stepType::String
 end
 Base.show(io::IO, x::NelderMeadOptimisationState) = @printf io "|%10d   |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.stepType x.objectiveValue x.gradientNorm
-Base.convert(::Type{FirstOrderOptimisationState}, state::Optim.OptimizationState{<:Any, <:Optim.FirstOrderOptimizer}, prevIteration) = FirstOrderOptimisationState(state.value, state.g_norm, prevIteration + 1, state.metadata["time"], state.metadata["step_type"])
+Base.convert(::Type{NelderMeadOptimisationState}, state, prevIteration) = NelderMeadOptimisationState(prevIteration + 1, state.value, state.g_norm, state.metadata["time"], state.metadata["step_type"])
