@@ -5,13 +5,18 @@ struct Trace{S<:OptimisationState}
 end
 Trace(::Type{T}=FirstOrderOptimisationState) where {T} = Trace{T}(T[])
 
+Base.length(trace::Trace) = length(trace.stateVector)
+Base.getindex(trace::Trace, i) = trace.stateVector[i]
+Base.lastindex(trace::Trace) = lastindex(trace.stateVector)
+
 # NOTE: only works if trace is updated every iteration
 Base.push!(trace::Trace{S}, state) where {S} = push!(trace.stateVector, convert(S, state, getFinalIteration(trace)))
 
+ifFirstIteration(trace) = length(trace) == 0 ? (true, 0) : (false, getFinalIteration(trace))
 function getFinalIteration(trace::Trace)
     finalIteration = -1
     try
-        finalIteration = trace.stateVector[end].iteration
+        finalIteration = trace[end].iteration
     catch
     end
     return finalIteration
