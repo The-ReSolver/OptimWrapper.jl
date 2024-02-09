@@ -1,15 +1,15 @@
 # This file contains the definitions to create a default callback method
 # extending the default behaviour of Optim.jl.
 
-struct Callback{X, C, OPTIMIZER, S, CB, F}
+struct Callback{X, C, OPTIMIZER, S, CB, R, F}
     optimisationVariable::X
     cache::C
-    options::OptOptions{OPTIMIZER, S, CB, F}
+    options::OptOptions{OPTIMIZER, S, CB, R, F}
     ifKeepZero::Bool
 
-    function Callback(optimisationVariable, cache, options::OptOptions{OPTIMIZER, S, CB, F}) where {OPTIMIZER, S, CB, F}
+    function Callback(optimisationVariable, cache, options::OptOptions{OPTIMIZER, S, CB, R, F}) where {OPTIMIZER, S, CB, R, F}
         ifKeepZero = ifFirstIteration(options.trace)
-        new{typeof(optimisationVariable), typeof(cache), OPTIMIZER, S, CB, F}(optimisationVariable, cache, options, ifKeepZero)
+        new{typeof(optimisationVariable), typeof(cache), OPTIMIZER, S, CB, R, F}(optimisationVariable, cache, options, ifKeepZero)
     end
 end
 
