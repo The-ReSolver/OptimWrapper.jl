@@ -19,8 +19,8 @@
     @test_nowarn push!(trace2, dummyState2)
 
     @test length(trace1.stateVector) == length(trace2.stateVector) == 1
-    @test trace1.stateVector[1] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
-    @test trace2.stateVector[1] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
+    @test trace1[1] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
+    @test trace2[1] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
 
     @test OptimWrapper.ifFirstIteration(trace1) === false
     @test OptimWrapper.ifFirstIteration(trace2) === false
@@ -29,8 +29,8 @@
     push!(trace2, dummyState2)
 
     @test length(trace1.stateVector) == length(trace2.stateVector) == 2
-    @test trace1.stateVector[2] == OptimWrapper.FirstOrderOptimisationState(1, value, gnorm, time, stepSize)
-    @test trace2.stateVector[2] == OptimWrapper.NelderMeadOptimisationState(1, value, gnorm, time, stepType)
+    @test trace1[2] == OptimWrapper.FirstOrderOptimisationState(1, value, gnorm, time, stepSize)
+    @test trace2[2] == OptimWrapper.NelderMeadOptimisationState(1, value, gnorm, time, stepType)
 
     @test OptimWrapper.ifFirstIteration(trace1) === false
     @test OptimWrapper.ifFirstIteration(trace2) === false

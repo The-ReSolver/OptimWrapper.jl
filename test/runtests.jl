@@ -1,6 +1,7 @@
 using Test
 using Random
 using Printf
+using Optim
 
 using OptimWrapper
 
@@ -13,3 +14,4 @@ end
 
 include("test_optimisationState.jl")
 include("test_trace.jl")
+include("test_callback.jl")

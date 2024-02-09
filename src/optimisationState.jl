@@ -1,5 +1,7 @@
 # Definitions of the optimisation state for each iteration.
 
+# TODO: add fallback optimisation state
+
 abstract type OptimisationState end
 
 struct FirstOrderOptimisationState <: OptimisationState
