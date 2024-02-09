@@ -2,13 +2,13 @@
 
 abstract type OptimisationState end
 
-struct GenericOptimistionState <: OptimisationState
+struct GenericOptimisationState <: OptimisationState
     iteration::Int
     objectiveValue::Float64
     time::Float64
 end
-Base.show(io::IO, x::GenericOptimistionState) = @printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.time x.objectiveValue
-Base.convert(::Type{GenericOptimistionState}, state, prevIteration) = GenericOptimistionState(prevIteration + 1, state.value, state.metadata["time"])
+Base.show(io::IO, x::GenericOptimisationState) = @printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.time x.objectiveValue
+Base.convert(::Type{GenericOptimisationState}, state, prevIteration) = GenericOptimisationState(prevIteration + 1, state.value, state.metadata["time"])
 
 struct FirstOrderOptimisationState <: OptimisationState
     iteration::Int
