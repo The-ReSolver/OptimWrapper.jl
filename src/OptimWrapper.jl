@@ -1,6 +1,14 @@
 module OptimWrapper
 
-using Optim, Printf, Parameters
+using Optim, Printf, Parameters, LineSearches
+
+export LBFGS, ConjugateGradient, GradientDescent, NelderMead
+
+export HagerZang, MoreThuente, BackTracking, StrongWolfe, Static
+export InitialPrevious, InitialStatic, InitialHagerZhang, InitialQuadratic, InitialConstantChange
+
+export OptOptions
+export optimise!
 
 include("optimisationState.jl")
 include("trace.jl")
