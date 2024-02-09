@@ -29,8 +29,6 @@ function getOptimisationStateType(algorithm)
     end
 end
 
-# TODO: define tests for these
-ifUpdateTrace(iteration, ifKeepZero) = iteration != 0 || ifKeepZero
 ifWriteIteration(options, iteration) = options.write && iteration % options.n_it_write == 0
 ifPrintIteration(options, iteration) = options.verbose && iteration % options.n_it_print == 0
 ifUpdateFrequency(options::OptOptions{<:Any, <:Any, Val{Inf}}, ::Any) = false

@@ -14,4 +14,5 @@ end
 
 include("test_optimisationState.jl")
 include("test_trace.jl")
+include("test_options.jl")
 include("test_callback.jl")

@@ -20,3 +20,5 @@ function (f::Callback)(state)
     ifUpdateFrequency(f.options, getFinalIteration(f.options.trace)) ? updateFrequency(f.cache) : nothing
     return f.options.callback(state)
 end
+
+ifUpdateTrace(iteration, ifKeepZero) = iteration != 0 || ifKeepZero
