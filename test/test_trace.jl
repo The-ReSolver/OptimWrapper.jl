@@ -34,4 +34,11 @@
 
     @test !OptimWrapper.ifFirstIteration(trace1)
     @test !OptimWrapper.ifFirstIteration(trace2)
+
+    push!(trace1, trace1[1])
+    push!(trace2, trace2[1])
+
+    @test length(trace1.stateVector) == length(trace2.stateVector) == 3
+    @test trace1[3] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
+    @test trace2[3] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
 end
