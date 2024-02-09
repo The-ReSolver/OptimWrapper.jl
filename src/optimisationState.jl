@@ -1,8 +1,14 @@
 # Definitions of the optimisation state for each iteration.
 
-# TODO: add fallback optimisation state
-
 abstract type OptimisationState end
+
+struct GenericOptimistionState <: OptimisationState
+    iteration::Int
+    objectiveValue::Float64
+    time::Float64
+end
+Base.show(io::IO, x::GenericOptimistionState) = @printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.time x.objectiveValue
+Base.convert(::Type{GenericOptimistionState}, state, prevIteration) = GenericOptimistionState(prevIteration + 1, state.value, state.metadata["time"])
 
 struct FirstOrderOptimisationState <: OptimisationState
     iteration::Int
@@ -11,7 +17,7 @@ struct FirstOrderOptimisationState <: OptimisationState
     time::Float64
     stepSize::Float64
 end
-Base.show(io::IO, x::FirstOrderOptimisationState) = @printf io "|%10d   |   %5.2e  |  %5.5e  |  %5.5e  |" x.iteration x.stepSize x.objectiveValue x.gradientNorm
+Base.show(io::IO, x::FirstOrderOptimisationState) = @printf io "|%10d   |  %5.5e  |   %5.2e  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepSize x.objectiveValue x.gradientNorm
 Base.convert(::Type{FirstOrderOptimisationState}, state, prevIteration) = FirstOrderOptimisationState(prevIteration + 1, state.value, state.g_norm, state.metadata["time"], state.metadata["Current step size"])
 
 struct NelderMeadOptimisationState <: OptimisationState
@@ -21,5 +27,5 @@ struct NelderMeadOptimisationState <: OptimisationState
     time::Float64
     stepType::String
 end
-Base.show(io::IO, x::NelderMeadOptimisationState) = @printf io "|%10d   |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.stepType x.objectiveValue x.gradientNorm
+Base.show(io::IO, x::NelderMeadOptimisationState) = @printf io "|%10d   |  %5.5e  |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepType x.objectiveValue x.gradientNorm
 Base.convert(::Type{NelderMeadOptimisationState}, state, prevIteration) = NelderMeadOptimisationState(prevIteration + 1, state.value, state.g_norm, state.metadata["time"], state.metadata["step_type"])

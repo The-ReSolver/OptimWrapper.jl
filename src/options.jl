@@ -34,7 +34,7 @@ function getOptimisationStateType(algorithm)
     elseif algorithm isa Optim.NelderMead
         return NelderMeadOptimisationState
     else
-        throw(ArgumentError("Algorithm does not have a defined state"))
+        return GenericOptimistionState
     end
 end
 
