@@ -12,7 +12,7 @@ Base.lastindex(trace::Trace) = lastindex(trace.stateVector)
 # NOTE: only works if trace is updated every iteration
 Base.push!(trace::Trace{S}, state) where {S} = push!(trace.stateVector, convert(S, state, getFinalIteration(trace)))
 
-ifFirstIteration(trace) = length(trace) == 0 ? (true, 0) : (false, getFinalIteration(trace))
+ifFirstIteration(trace) = length(trace) == 0
 function getFinalIteration(trace::Trace)
     finalIteration = -1
     try

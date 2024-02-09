@@ -12,8 +12,8 @@
     dummyState1 = DummyState(iter, value, gnorm, Dict("time"=>time, "Current step size"=>stepSize))
     dummyState2 = DummyState(iter, value, gnorm, Dict("time"=>time, "step_type"=>stepType))
 
-    @test OptimWrapper.ifFirstIteration(trace1) == (true, 0)
-    @test OptimWrapper.ifFirstIteration(trace2) == (true, 0)
+    @test OptimWrapper.ifFirstIteration(trace1) === true
+    @test OptimWrapper.ifFirstIteration(trace2) === true
 
     @test_nowarn push!(trace1, dummyState1)
     @test_nowarn push!(trace2, dummyState2)
@@ -22,8 +22,8 @@
     @test trace1.stateVector[1] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
     @test trace2.stateVector[1] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
 
-    @test OptimWrapper.ifFirstIteration(trace1) == (false, 0)
-    @test OptimWrapper.ifFirstIteration(trace2) == (false, 0)
+    @test OptimWrapper.ifFirstIteration(trace1) === false
+    @test OptimWrapper.ifFirstIteration(trace2) === false
 
     push!(trace1, dummyState1)
     push!(trace2, dummyState2)
@@ -32,6 +32,6 @@
     @test trace1.stateVector[2] == OptimWrapper.FirstOrderOptimisationState(1, value, gnorm, time, stepSize)
     @test trace2.stateVector[2] == OptimWrapper.NelderMeadOptimisationState(1, value, gnorm, time, stepType)
 
-    @test OptimWrapper.ifFirstIteration(trace1) == (false, 1)
-    @test OptimWrapper.ifFirstIteration(trace2) == (false, 1)
+    @test OptimWrapper.ifFirstIteration(trace1) === false
+    @test OptimWrapper.ifFirstIteration(trace2) === false
 end
