@@ -41,4 +41,7 @@
     @test length(trace1.stateVector) == length(trace2.stateVector) == 3
     @test trace1[3] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
     @test trace2[3] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
+
+    @test eltype(trace1) == OptimWrapper.FirstOrderOptimisationState
+    @test eltype(trace2) == OptimWrapper.NelderMeadOptimisationState
 end
