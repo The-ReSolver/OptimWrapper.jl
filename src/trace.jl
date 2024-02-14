@@ -1,6 +1,6 @@
 # Definitions for the trace of the optimisation.
 
-struct Trace{S<:OptimisationState}
+struct Trace{S<:AbstractOptimisationState}
     stateVector::Vector{S}
 end
 Trace(::Type{T}=FirstOrderOptimisationState) where {T} = Trace{T}(T[])
@@ -13,6 +13,7 @@ Base.eltype(::Trace{S}) where {S} = S
 # NOTE: only works if trace is updated every iteration
 Base.push!(trace::Trace{S}, state) where {S} = push!(trace.stateVector, convert(S, state, getFinalIteration(trace)))
 Base.push!(trace::Trace{S}, state::S) where {S} = push!(trace.stateVector, state)
+Base.push!(::Trace, ::Nothing) = nothing
 
 ifFirstIteration(trace) = length(trace) == 0
 function getFinalIteration(trace::Trace)
