@@ -12,9 +12,14 @@
 
     OptimWrapper.initialiseOptimisationDirectory(path, optimisationVariable, parameter1=parameter1, parameter2=parameter2, parameter3=parameter3, parameter4=parameter4)
 
-    @test isfile("./tmp/parameters.jld2")
-    @test isfile("./tmp/0/optVar")
+    @test isfile(path*"parameters.jld2")
+    @test isfile(path*"0/optVar")
 
-    # tear down directory
+    randomIteration = rand(1:100)
+    OptimWrapper.writeIteration(path*string(randomIteration)*"/", optimisationVariable, OptimWrapper.GenericOptimisationState(randomIteration, rand(), rand()))
+
+    @test isfile(path*string(randomIteration)*"/optVar")
+    @test isfile(path*string(randomIteration)*"/state.jld2")
+
     rm("./tmp", recursive=true)
 end
