@@ -1,6 +1,6 @@
 module OptimWrapper
 
-using Optim, Printf, Parameters, LineSearches
+using Optim, Printf, Parameters, LineSearches, JLD2
 
 export LBFGS, ConjugateGradient, GradientDescent, NelderMead
 
@@ -14,7 +14,8 @@ include("optimisationState.jl")
 include("trace.jl")
 include("printing.jl")
 include("options.jl")
-include("output.jl")
+include("write.jl")
+include("read.jl")
 include("callback.jl")
 include("optimise.jl")
 
