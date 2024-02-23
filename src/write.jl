@@ -1,15 +1,19 @@
 # Definitions for writing optimisation data to disc.
 
 function initialiseOptimisationDirectory(path, optimisationVariable; parameters...)
-    writeOptimisationParameters(path; parameters...)
+    writeOptimisationParameters(path, OrderedDict(parameters))
     writeIteration(path*"0/", optimisationVariable)
 end
 
-function writeOptimisationParameters(path; parameters...)
+function writeOptimisationParameters(path, parameters)
     jldopen(path*"parameters.jld2", "w") do f
-        for (key, value) in parameters
-            f[string(key)] = value
-        end
+        writeParameterDictionary(f, parameters)
+    end
+end
+
+function writeParameterDictionary(fileIO, parameters)
+    for (key, value) in parameters
+        fileIO[string(key)] = value
     end
 end
 

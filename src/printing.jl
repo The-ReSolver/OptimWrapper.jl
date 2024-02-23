@@ -1,6 +1,8 @@
 # Definitions to print the optimisation state depending on the type of
 # optimisation chosen
 
+printHeader(::IO, ::Type{<:AbstractOptimisationState}) = nothing
+
 function printHeader(io, ::Type{GenericOptimisationState})
     println(io, "-----------------------------------------------")
     println(io, "|  Iteration  |     Time      |   Residual    |")

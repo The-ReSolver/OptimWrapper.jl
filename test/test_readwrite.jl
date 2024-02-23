@@ -1,25 +1,39 @@
 @testset "Optimisation Read/Write       " begin
-    # test directory initialisation
-    # test iteration writing
-
     path = "./tmp/"
-    optimisationVariable = rand(rand([Float64, ComplexF64]), [rand(1:5) for _ in 1:rand(1:3)]...)
+    randIteration = rand(1:100)
+    randValue = rand()
+    randGradientNorm = rand()
+    optimisationVariable = rand(Int64, rand(1:100))
+    optimisationState = OptimWrapper.GenericOptimisationState(randIteration, randValue, randGradientNorm)
     parameter1 = "First parameters"
     parameter2 = 2.0
     parameter3 = true
     parameter4 = rand(ComplexF64, 5, 4, 3, 2)
     mkpath(path)
 
-    OptimWrapper.initialiseOptimisationDirectory(path, optimisationVariable, parameter1=parameter1, parameter2=parameter2, parameter3=parameter3, parameter4=parameter4)
+    OptimWrapper.initialiseOptimisationVariableFromFile(path, ::String, rest...) = Vector{Int64}(undef, filesize(path*"optVar")÷sizeof(Int64))
 
-    @test isfile(path*"parameters.jld2")
-    @test isfile(path*"0/optVar")
+    try
+        OptimWrapper.initialiseOptimisationDirectory(path, optimisationVariable, parameter1=parameter1, parameter2=parameter2, parameter3=parameter3, parameter4=parameter4)
 
-    randomIteration = rand(1:100)
-    OptimWrapper.writeIteration(path*string(randomIteration)*"/", optimisationVariable, OptimWrapper.GenericOptimisationState(randomIteration, rand(), rand()))
+        @test isfile(path*"parameters.jld2")
+        @test isfile(path*"0/optVar")
 
-    @test isfile(path*string(randomIteration)*"/optVar")
-    @test isfile(path*string(randomIteration)*"/state.jld2")
+        OptimWrapper.writeIteration(path*string(randIteration)*"/", optimisationVariable, optimisationState)
 
-    rm("./tmp", recursive=true)
+        @test isfile(path*string(randIteration)*"/optVar")
+        @test isfile(path*string(randIteration)*"/state.jld2")
+
+        parameters2 = OptimWrapper.readOptimisationParameters(path)
+        optimisationVariable2, optimisationState2 = OptimWrapper.loadOptimisation(path, randIteration)
+
+        @test optimisationVariable2 == optimisationVariable
+        @test optimisationState2 == optimisationState
+        @test parameters2["parameter1"] == parameter1
+        @test parameters2["parameter2"] == parameter2
+        @test parameters2["parameter3"] == parameter3
+        @test parameters2["parameter4"] == parameter4
+    finally
+        rm("./tmp", recursive=true)
+    end
 end

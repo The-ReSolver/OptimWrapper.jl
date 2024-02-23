@@ -1,30 +1,30 @@
 # Definitions to read optimisation data from disc.
 
-function loadOptimisationState(path, iteration)
-    parameters = readOptimisationParameters(path*"parameters.jld2")
-    optimisationVariable = readOptimisationVariable!(path*string(iteration))
-    optimisationState = tryToReadOptimisationState(path*string(iteration))
-    return optimisationVariable, optimisationState, parameters
+function loadOptimisation(path, iteration)
+    parameters = readOptimisationParameters(path)
+    optimisationVariable = initialiseOptimisationVariableFromFile(path*string(iteration)*"/", values(parameters)...)
+    readOptimisationVariable!(optimisationVariable, path*string(iteration)*"/")
+    optimisationState = tryToReadOptimisationState(path*string(iteration)*"/")
+    return optimisationVariable, optimisationState
 end
 
 function readOptimisationParameters(path)
-    parameters = jldopen(path*"parameters.jld2", "r") do f
-        return unpackParametersFile!(f)
+    jldopen(path*"parameters.jld2", "r") do f
+        return unpackParametersDictionary(f)
     end
-    return parameters
 end
 
-function unpackParametersFile!(fileIO)
-    parameters = Dict{String, Any}()
+function unpackParametersDictionary(fileIO)
+    parameters = OrderedDict()
     for key in keys(fileIO)
-        merge!(parameters, Dict(key=>fileIO[key]))
+        merge!(parameters, Dict(key => fileIO[key]))
     end
     return parameters
 end
 
-# TODO: need fallback that assumes optimisation variable is a real vector
-function readOptimisationVariable!(path)
-    optimisationVariable = initialiseOptimisationVariableFromFile(path*"optVar")
+initialiseOptimisationVariableFromFile(path, parameters...) = Vector{Float64}(undef, filesize(path*"optVar")÷sizeof(Float64))
+
+function readOptimisationVariable!(optimisationVariable, path)
     open(path*"optVar", "r") do f
         read!(f, parent(optimisationVariable))
     end
@@ -34,15 +34,15 @@ function tryToReadOptimisationState(path)
     local optimisationState
     try
         optimisationState = readOptimisationState(path)
-    catch
+    catch e
+        throw(e)
         optimisationState = nothing
     end
     return optimisationState
 end
 
 function readOptimisationState(path)
-    optimisationState = open(path*"state.jld2", "r") do f
+    jldopen(path*"state.jld2", "r") do f
         return f["optimisationState"]
     end
-    return optimisationState
 end
