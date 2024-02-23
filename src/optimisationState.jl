@@ -2,7 +2,6 @@
 
 abstract type AbstractOptimisationState end
 
-# TODO: there's gotta be a better way? Look at the data flow of the optimisation initialisation.
 (f::Type{<:AbstractOptimisationState})() = f((one(f.types[i]) for i in eachindex(fieldnames(f)))...)
 
 
