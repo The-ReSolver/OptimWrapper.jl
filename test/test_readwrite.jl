@@ -19,7 +19,7 @@
         @test isfile(path*"parameters.jld2")
         @test isfile(path*"0/optVar")
 
-        OptimWrapper.writeIteration(path*string(randIteration)*"/", optimisationVariable, optimisationState)
+        OptimWrapper.writeIteration(path, optimisationVariable, optimisationState)
 
         @test isfile(path*string(randIteration)*"/optVar")
         @test isfile(path*string(randIteration)*"/state.jld2")

@@ -14,8 +14,8 @@
     stepSize = rand()
     stepType = rand(["expansion", "reflection", "outside contraction", "inside contraction", "shrink"])
 
-    dummyState1 = DummyState(iter, value, gnorm, Dict("time"=>time, "Current step size"=>stepSize))
-    dummyState2 = DummyState(iter, value, gnorm, Dict("time"=>time, "step_type"=>stepType))
+    dummyState1 = DummyState(iter, value, gnorm, Dict("time"=>time, "Current step size"=>stepSize, "x"=>rand(5, 5)))
+    dummyState2 = DummyState(iter, value, gnorm, Dict("time"=>time, "step_type"=>stepType, "x"=>rand(5, 5)))
 
     @test_nowarn callback1(dummyState1)
     @test_nowarn callback2(dummyState2)

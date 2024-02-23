@@ -3,21 +3,21 @@
 
 printHeader(::IO, ::Type{<:AbstractOptimisationState}) = nothing
 
-function printHeader(io, ::Type{GenericOptimisationState})
+function printHeader(io::IO, ::Type{GenericOptimisationState})
     println(io, "-----------------------------------------------")
     println(io, "|  Iteration  |     Time      |   Residual    |")
     println(io, "-----------------------------------------------")
     flush(io)
 end
 
-function printHeader(io, ::Type{FirstOrderOptimisationState})
+function printHeader(io::IO, ::Type{FirstOrderOptimisationState})
     println(io, "-----------------------------------------------------------------------------")
     println(io, "|  Iteration  |     Time      |  Step Size  |   Residual    |   Gradient    |")
     println(io, "-----------------------------------------------------------------------------")
     flush(io)
 end
 
-function printHeader(io, ::Type{NelderMeadOptimisationState})
+function printHeader(io::IO, ::Type{NelderMeadOptimisationState})
     println(io, "-----------------------------------------------------------------------------------------")
     println(io, "|  Iteration  |     Time      |        Step Type        |   Residual    | √(Σ(yᵢ-ȳ)²)/n |")
     println(io, "-----------------------------------------------------------------------------------------")

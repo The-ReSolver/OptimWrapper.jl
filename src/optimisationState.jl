@@ -3,6 +3,7 @@
 abstract type AbstractOptimisationState end
 
 (f::Type{<:AbstractOptimisationState})() = f((one(f.types[i]) for i in eachindex(fieldnames(f)))...)
+iteration(optimisationState::AbstractOptimisationState) = optimisationState.iteration
 
 
 struct GenericOptimisationState <: AbstractOptimisationState

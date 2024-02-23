@@ -1,12 +1,19 @@
 # Definitions to read optimisation data from disc.
 
-function loadOptimisation(path, iteration)
+function loadOptimisation(path, ::Val{Inf})
+    finalIteration = getFinalIteration(path)
+    return loadOptimisation(path, finalIteration)
+end
+
+function loadOptimisation(path, iteration::Int)
     parameters = readOptimisationParameters(path)
     optimisationVariable = initialiseOptimisationVariableFromFile(path*string(iteration)*"/", values(parameters)...)
     readOptimisationVariable!(optimisationVariable, path*string(iteration)*"/")
     optimisationState = tryToReadOptimisationState(path*string(iteration)*"/")
     return optimisationVariable, optimisationState
 end
+
+getFinalIteration(path) = maximum(parse.(Int, filter!(x->tryparse(Int, x) !== nothing, readdir(path))))
 
 function readOptimisationParameters(path)
     jldopen(path*"parameters.jld2", "r") do f
@@ -34,8 +41,7 @@ function tryToReadOptimisationState(path)
     local optimisationState
     try
         optimisationState = readOptimisationState(path)
-    catch e
-        throw(e)
+    catch
         optimisationState = nothing
     end
     return optimisationState

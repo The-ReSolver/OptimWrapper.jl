@@ -18,8 +18,8 @@ function writeParameterDictionary(fileIO, parameters)
 end
 
 function writeIteration(path, optimisationVariable, optimisationState)
-    writeVariableTo(path, optimisationVariable)
-    writeOptimisationState(path, optimisationState)
+    writeVariableTo(path*string(iteration(optimisationState))*"/", optimisationVariable)
+    writeOptimisationState(path*string(iteration(optimisationState))*"/", optimisationState)
 end
 writeIteration(path, optimisationVariable) = writeVariableTo(path, optimisationVariable)
 
