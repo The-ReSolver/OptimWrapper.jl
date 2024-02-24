@@ -1,13 +1,13 @@
 # Definitions to read optimisation data from disc.
 
-function loadOptimisation(path, ::Val{Inf})
+function loadOptimisation(path, ::Val{Inf}, readMethod)
     finalIteration = getFinalIteration(path)
-    return loadOptimisation(path, finalIteration)
+    return loadOptimisation(path, finalIteration, readMethod)
 end
 
-function loadOptimisation(path, iteration::Int)
+function loadOptimisation(path, iteration::Int, readMethod)
     parameters = readOptimisationParameters(path)
-    optimisationVariable = initialiseOptimisationVariableFromFile(path*string(iteration)*"/", values(parameters)...)
+    optimisationVariable = readMethod(path*string(iteration)*"/", values(parameters)...)
     readOptimisationVariable!(optimisationVariable, path*string(iteration)*"/")
     optimisationState = tryToReadOptimisationState(path*string(iteration)*"/")
     return optimisationVariable, optimisationState
@@ -28,8 +28,6 @@ function unpackParametersDictionary(fileIO)
     end
     return parameters
 end
-
-initialiseOptimisationVariableFromFile(path, parameters...) = Vector{Float64}(undef, filesize(path*"optVar")÷sizeof(Float64))
 
 function readOptimisationVariable!(optimisationVariable, path)
     open(path*"optVar", "r") do f

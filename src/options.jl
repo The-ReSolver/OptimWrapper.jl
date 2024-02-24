@@ -1,7 +1,7 @@
 # This file contains the definition of the optimisation options that can be
 # passed to modify the default behaviour of the wrapper.
 
-@with_kw struct OptOptions{OPTIMIZER<:Optim.AbstractOptimizer, S, CB, R<:Union{Val{Inf}, Int}, F<:Union{Val{Inf}, Int}}
+@with_kw struct OptOptions{OPTIMIZER<:Optim.AbstractOptimizer, S, CB, R<:Union{Val{Inf}, Int}, F<:Union{Val{Inf}, Int}, RM}
     # general options
     maxiter::Int = typemax(Int)
     alg::OPTIMIZER = LBFGS()
@@ -27,6 +27,7 @@
     write::Bool = false
     write_path::String = "./"; @assert write_path[end] == '/'
     n_it_write::Int = 1
+    readMethod::RM = (path, parameters...)->Vector{Float64}(undef, filesize(path*"optVar")÷sizeof(Float64)); @assert !isempty(methods(readMethod))
     # TODO: output mode just for trace
 end
 

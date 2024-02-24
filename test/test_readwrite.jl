@@ -11,7 +11,7 @@
     parameter4 = rand(ComplexF64, 5, 4, 3, 2)
     mkpath(path)
 
-    OptimWrapper.initialiseOptimisationVariableFromFile(path, ::String, rest...) = Vector{Int64}(undef, filesize(path*"optVar")÷sizeof(Int64))
+    myReadMethod(path, ::String, rest...) = Vector{Int64}(undef, filesize(path*"optVar")÷sizeof(Int64))
 
     try
         OptimWrapper.initialiseOptimisationDirectory(path, optimisationVariable, parameter1=parameter1, parameter2=parameter2, parameter3=parameter3, parameter4=parameter4)
@@ -25,7 +25,7 @@
         @test isfile(path*string(randIteration)*"/state.jld2")
 
         parameters2 = OptimWrapper.readOptimisationParameters(path)
-        optimisationVariable2, optimisationState2 = OptimWrapper.loadOptimisation(path, randIteration)
+        optimisationVariable2, optimisationState2 = OptimWrapper.loadOptimisation(path, randIteration, myReadMethod)
 
         @test optimisationVariable2 == optimisationVariable
         @test optimisationState2 == optimisationState
