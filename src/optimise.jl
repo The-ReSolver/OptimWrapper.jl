@@ -12,7 +12,7 @@ optimise!(optimisationVariable, objective, options::OptOptions=OptOptions()) = _
 
 _optimise!(optimisationVariable, objective, options::OptOptions, optimOptions) = _optimise!(optimisationVariable, objective, options.alg, options, optimOptions)
 _optimise!(optimisationVariable, objective, options::OptOptions{<:Optim.FirstOrderOptimizer}, optimOptions) = _optimise!(optimisationVariable, Optim.only_fg!(objective), options.alg, options, optimOptions)
-_optimise!(optimisationVariable, objective, options::OptOptions{<:Optim.NelderMead}, optimOptions) = _optimise!(optimisationVariable, objective, Optim.NelderMead(), options, optimOptions)
+_optimise!(optimisationVariable, objective, options::OptOptions{<:Optim.NelderMead}, optimOptions) = _optimise!(optimisationVariable, objective, options.alg, options, optimOptions)
 
 function _optimise!(optimisationVariable, objective, algorithm, options::OptOptions{<:Any, S}, optimOptions) where {S}
     options.verbose ? printHeader(options.io, S) : nothing
