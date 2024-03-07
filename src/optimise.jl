@@ -1,8 +1,5 @@
 # Definitions for the top-level optimsiation methods.
 
-# ! list of functions requried by Fields.jl to get this working !
-# 1. initialiseOptimisationVariableFromFile
-
 function optimise!(objective, options::OptOptions=OptOptions())
     optimisationVariable, optimisationState = loadOptimisation(options.write_path, options.restart, options.readMethod)
     push!(options.trace, optimisationState)

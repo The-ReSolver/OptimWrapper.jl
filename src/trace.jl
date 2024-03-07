@@ -24,3 +24,16 @@ function getFinalIteration(trace::Trace)
     end
     return finalIteration
 end
+
+function Base.getproperty(trace::Trace, field::Symbol)
+    if field === :stateVector
+        return getfield(trace, :stateVector)
+    else
+        T = typeof(getfield(trace[1], field))
+        out = Vector{T}(undef, length(trace))
+        for i in 1:length(trace)
+            out[i] = getfield(trace[i], field)
+        end
+        return out
+    end
+end

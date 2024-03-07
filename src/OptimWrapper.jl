@@ -12,6 +12,8 @@ export initialiseOptimisationDirectory
 export loadOptimisation
 export optimise!
 
+# TODO: add optional argument to stop when residual is sufficiently small
+
 include("optimisationState.jl")
 include("trace.jl")
 include("printing.jl")
