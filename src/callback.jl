@@ -19,7 +19,7 @@ function (f::Callback)(state)
     ifWriteIteration(f.options, getFinalIteration(f.options.trace)) ? writeIteration(f.options.write_path, f.optimisationVariable, f.options.trace[end]) : nothing
     ifPrintIteration(f.options, getFinalIteration(f.options.trace)) ? (println(f.options.io, f.options.trace[end]); flush(f.options.io)) : nothing
     ifUpdateFrequency(f.options, getFinalIteration(f.options.trace)) ? updateFrequency(f.cache) : nothing
-    return f.options.callback(state)
+    return checkResidualConvergence(f.options, f.options.trace[end].objectiveValue) || f.options.callback(state)
 end
 
 updateOptimisationVariable!(optimisationVariable, optimState::Optim.OptimizationState{<:Any, <:Optim.NelderMead}) = (optimisationVariable .= optimState.metadata["centroid"]; return optimisationVariable)

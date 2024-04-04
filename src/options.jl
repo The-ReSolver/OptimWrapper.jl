@@ -5,7 +5,8 @@
     # general options
     maxiter::Int = typemax(Int)
     alg::OPTIMIZER = LBFGS()
-    g_tol::Float64 = 1e-12
+    res_tol::Float64 = 1e-12
+    g_tol::Float64 = 0.0
     x_tol::Float64 = 0.0
     f_tol::Float64 = 0.0
     f_calls_limit::Int = 0
@@ -45,6 +46,7 @@ ifWriteIteration(options, iteration) = options.write && iteration % options.n_it
 ifPrintIteration(options, iteration) = options.verbose && iteration % options.n_it_print == 0
 ifUpdateFrequency(options::OptOptions{<:Any, <:Any, <:Any, <:Any, Val{Inf}}, ::Any) = false
 ifUpdateFrequency(options::OptOptions{<:Any, <:Any, <:Any, <:Any, Int}, iteration) = iteration % options.update_frequency_every == 0
+checkResidualConvergence(options::OptOptions, value) = value < options.res_tol
 
 genOptimOptions(options, callback) = Optim.Options( g_tol=options.g_tol,
                                                     x_tol=options.x_tol,
