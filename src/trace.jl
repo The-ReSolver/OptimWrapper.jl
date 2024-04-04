@@ -11,7 +11,7 @@ Base.lastindex(trace::Trace) = lastindex(trace.stateVector)
 Base.eltype(::Trace{S}) where {S} = S
 
 # NOTE: only works if trace is updated every iteration
-Base.push!(trace::Trace{S}, state) where {S} = push!(trace.stateVector, convert(S, state, getFinalIteration(trace)))
+Base.push!(trace::Trace{S}, state, startTime) where {S} = push!(trace.stateVector, convert(S, state, getFinalIteration(trace), startTime))
 Base.push!(trace::Trace{S}, state::S) where {S} = push!(trace.stateVector, state)
 Base.push!(::Trace, ::Nothing) = nothing
 

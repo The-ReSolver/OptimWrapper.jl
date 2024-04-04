@@ -12,7 +12,7 @@ struct GenericOptimisationState <: AbstractOptimisationState
     time::Float64
 end
 Base.show(io::IO, x::GenericOptimisationState) = @printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.time x.objectiveValue
-Base.convert(::Type{GenericOptimisationState}, state, prevIteration) = GenericOptimisationState(prevIteration + 1, state.value, state.metadata["time"])
+Base.convert(::Type{GenericOptimisationState}, state, prevIteration, startTime) = GenericOptimisationState(prevIteration + 1, state.value, startTime + state.metadata["time"])
 
 
 struct FirstOrderOptimisationState <: AbstractOptimisationState
@@ -23,7 +23,7 @@ struct FirstOrderOptimisationState <: AbstractOptimisationState
     stepSize::Float64
 end
 Base.show(io::IO, x::FirstOrderOptimisationState) = @printf io "|%10d   |  %5.5e  |   %5.2e  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepSize x.objectiveValue x.gradientNorm
-Base.convert(::Type{FirstOrderOptimisationState}, state, prevIteration) = FirstOrderOptimisationState(prevIteration + 1, state.value, state.g_norm, state.metadata["time"], state.metadata["Current step size"])
+Base.convert(::Type{FirstOrderOptimisationState}, state, prevIteration, startTime) = FirstOrderOptimisationState(prevIteration + 1, state.value, state.g_norm, startTime + state.metadata["time"], state.metadata["Current step size"])
 
 
 struct NelderMeadOptimisationState <: AbstractOptimisationState
@@ -34,4 +34,4 @@ struct NelderMeadOptimisationState <: AbstractOptimisationState
     stepType::String
 end
 Base.show(io::IO, x::NelderMeadOptimisationState) = @printf io "|%10d   |  %5.5e  |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepType x.objectiveValue x.gradientNorm
-Base.convert(::Type{NelderMeadOptimisationState}, state, prevIteration) = NelderMeadOptimisationState(prevIteration + 1, state.value, state.g_norm, state.metadata["time"], state.metadata["step_type"])
+Base.convert(::Type{NelderMeadOptimisationState}, state, prevIteration, startTime) = NelderMeadOptimisationState(prevIteration + 1, state.value, state.g_norm, startTime + state.metadata["time"], state.metadata["step_type"])

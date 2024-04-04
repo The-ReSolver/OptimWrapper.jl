@@ -15,8 +15,8 @@
     @test OptimWrapper.ifFirstIteration(trace1)
     @test OptimWrapper.ifFirstIteration(trace2)
 
-    @test_nowarn push!(trace1, dummyState1)
-    @test_nowarn push!(trace2, dummyState2)
+    @test_nowarn push!(trace1, dummyState1, 0.0)
+    @test_nowarn push!(trace2, dummyState2, 0.0)
 
     @test length(trace1) == length(trace2) == 1
     @test trace1[1] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
@@ -25,8 +25,8 @@
     @test !OptimWrapper.ifFirstIteration(trace1)
     @test !OptimWrapper.ifFirstIteration(trace2)
 
-    push!(trace1, dummyState1)
-    push!(trace2, dummyState2)
+    push!(trace1, dummyState1, 0.0)
+    push!(trace2, dummyState2, 0.0)
 
     @test length(trace1) == length(trace2) == 2
     @test trace1[2] == OptimWrapper.FirstOrderOptimisationState(1, value, gnorm, time, stepSize)
