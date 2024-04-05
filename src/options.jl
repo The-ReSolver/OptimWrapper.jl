@@ -29,7 +29,6 @@
     write_path::String = "./"; @assert write_path[end] == '/'
     n_it_write::Int = 1
     readMethod::RM = (path, parameters...)->Vector{Float64}(undef, filesize(path*"optVar")÷sizeof(Float64)); @assert !isempty(methods(readMethod))
-    # TODO: output mode just for trace
 end
 
 function getOptimisationStateType(algorithm)

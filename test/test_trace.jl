@@ -15,22 +15,22 @@
     @test OptimWrapper.ifFirstIteration(trace1)
     @test OptimWrapper.ifFirstIteration(trace2)
 
-    @test_nowarn push!(trace1, dummyState1, 0.0)
-    @test_nowarn push!(trace2, dummyState2, 0.0)
+    @test_nowarn push!(trace1, dummyState1, 5, 0.0)
+    @test_nowarn push!(trace2, dummyState2, 5, 0.0)
 
     @test length(trace1) == length(trace2) == 1
-    @test trace1[1] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
-    @test trace2[1] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
+    @test trace1[1] == OptimWrapper.FirstOrderOptimisationState(iter + 5, value, gnorm, time, stepSize)
+    @test trace2[1] == OptimWrapper.NelderMeadOptimisationState(iter + 5, value, gnorm, time, stepType)
 
     @test !OptimWrapper.ifFirstIteration(trace1)
     @test !OptimWrapper.ifFirstIteration(trace2)
 
-    push!(trace1, dummyState1, 0.0)
-    push!(trace2, dummyState2, 0.0)
+    push!(trace1, dummyState1, 5, 0.0)
+    push!(trace2, dummyState2, 5, 0.0)
 
     @test length(trace1) == length(trace2) == 2
-    @test trace1[2] == OptimWrapper.FirstOrderOptimisationState(1, value, gnorm, time, stepSize)
-    @test trace2[2] == OptimWrapper.NelderMeadOptimisationState(1, value, gnorm, time, stepType)
+    @test trace1[2] == OptimWrapper.FirstOrderOptimisationState(iter + 5, value, gnorm, time, stepSize)
+    @test trace2[2] == OptimWrapper.NelderMeadOptimisationState(iter + 5, value, gnorm, time, stepType)
 
     @test !OptimWrapper.ifFirstIteration(trace1)
     @test !OptimWrapper.ifFirstIteration(trace2)
@@ -39,8 +39,8 @@
     push!(trace2, trace2[1])
 
     @test length(trace1) == length(trace2) == 3
-    @test trace1[3] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
-    @test trace2[3] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
+    @test trace1[3] == OptimWrapper.FirstOrderOptimisationState(iter + 5, value, gnorm, time, stepSize)
+    @test trace2[3] == OptimWrapper.NelderMeadOptimisationState(iter + 5, value, gnorm, time, stepType)
 
     @test eltype(trace1) == OptimWrapper.FirstOrderOptimisationState
     @test eltype(trace2) == OptimWrapper.NelderMeadOptimisationState
@@ -49,8 +49,8 @@
     push!(trace2, nothing)
 
     @test length(trace1) == length(trace2) == 3
-    @test trace1[3] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
-    @test trace2[3] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
+    @test trace1[3] == OptimWrapper.FirstOrderOptimisationState(iter + 5, value, gnorm, time, stepSize)
+    @test trace2[3] == OptimWrapper.NelderMeadOptimisationState(iter + 5, value, gnorm, time, stepType)
 
     @test trace1.objectiveValue == [value, value, value]
     @test trace2.stepType == [stepType, stepType, stepType]

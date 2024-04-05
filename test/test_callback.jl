@@ -21,13 +21,13 @@
     @test_nowarn callback2(dummyState2)
 
     @test length(options1.trace) == 1
-    @test options1.trace[1] == OptimWrapper.FirstOrderOptimisationState(0, value, gnorm, time, stepSize)
-    @test options2.trace[1] == OptimWrapper.NelderMeadOptimisationState(0, value, gnorm, time, stepType)
+    @test options1.trace[1] == OptimWrapper.FirstOrderOptimisationState(iter, value, gnorm, time, stepSize)
+    @test options2.trace[1] == OptimWrapper.NelderMeadOptimisationState(iter, value, gnorm, time, stepType)
 
     @test_nowarn callback1(dummyState1)
     @test_nowarn callback2(dummyState2)
 
     @test length(options1.trace) == 2
-    @test options1.trace[2] == OptimWrapper.FirstOrderOptimisationState(1, value, gnorm, time, stepSize)
-    @test options2.trace[2] == OptimWrapper.NelderMeadOptimisationState(1, value, gnorm, time, stepType)
+    @test options1.trace[2] == OptimWrapper.FirstOrderOptimisationState(iter, value, gnorm, time, stepSize)
+    @test options2.trace[2] == OptimWrapper.NelderMeadOptimisationState(iter, value, gnorm, time, stepType)
 end
