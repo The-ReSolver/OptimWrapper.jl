@@ -35,3 +35,11 @@ struct NelderMeadOptimisationState <: AbstractOptimisationState
 end
 Base.show(io::IO, x::NelderMeadOptimisationState) = (@printf io "|%10d   |  %5.5e  |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepType x.objectiveValue x.gradientNorm; flush(io))
 Base.convert(::Type{NelderMeadOptimisationState}, state, startIteration, startTime) = NelderMeadOptimisationState(startIteration + state.iteration, state.value, state.g_norm, startTime + state.metadata["time"], state.metadata["step_type"])
+
+struct GradientDescentState <: AbstractOptimisationState
+    iteration::Int
+    objectiveValue::Float64
+    gradientNorm::Float64
+end
+Base.show(io::IO, x::GradientDescentState) = (@printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.objectiveValue x.gradientNorm; flush(io))
+Base.convert(::Type{GradientDescentState}, iteration, objectiveValue, gradientNorm) = GradientDescentState(iteration, objectiveValue, gradientNorm)
