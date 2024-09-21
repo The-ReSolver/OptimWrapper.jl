@@ -11,7 +11,7 @@ struct GenericOptimisationState <: AbstractOptimisationState
     objectiveValue::Float64
     time::Float64
 end
-Base.show(io::IO, x::GenericOptimisationState) = @printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.time x.objectiveValue
+Base.show(io::IO, x::GenericOptimisationState) = (@printf io "|%10d   |  %5.5e  |  %5.5e  |" x.iteration x.time x.objectiveValue; flush(io))
 Base.convert(::Type{GenericOptimisationState}, state, startIteration, startTime) = GenericOptimisationState(startIteration + state.iteration, state.value, startTime + state.metadata["time"])
 
 
@@ -22,7 +22,7 @@ struct FirstOrderOptimisationState <: AbstractOptimisationState
     time::Float64
     stepSize::Float64
 end
-Base.show(io::IO, x::FirstOrderOptimisationState) = @printf io "|%10d   |  %5.5e  |   %5.2e  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepSize x.objectiveValue x.gradientNorm
+Base.show(io::IO, x::FirstOrderOptimisationState) = (@printf io "|%10d   |  %5.5e  |   %5.2e  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepSize x.objectiveValue x.gradientNorm; flush(io))
 Base.convert(::Type{FirstOrderOptimisationState}, state, startIteration, startTime) = FirstOrderOptimisationState(startIteration + state.iteration, state.value, state.g_norm, startTime + state.metadata["time"], state.metadata["Current step size"])
 
 
@@ -33,5 +33,5 @@ struct NelderMeadOptimisationState <: AbstractOptimisationState
     time::Float64
     stepType::String
 end
-Base.show(io::IO, x::NelderMeadOptimisationState) = @printf io "|%10d   |  %5.5e  |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepType x.objectiveValue x.gradientNorm
+Base.show(io::IO, x::NelderMeadOptimisationState) = (@printf io "|%10d   |  %5.5e  |   %-20s  |  %5.5e  |  %5.5e  |" x.iteration x.time x.stepType x.objectiveValue x.gradientNorm; flush(io))
 Base.convert(::Type{NelderMeadOptimisationState}, state, startIteration, startTime) = NelderMeadOptimisationState(startIteration + state.iteration, state.value, state.g_norm, startTime + state.metadata["time"], state.metadata["step_type"])

@@ -30,7 +30,7 @@ function (f::Callback)(state)
     updateOptimisationVariable!(f.optimisationVariable, state)
     ifUpdateTrace(state.iteration, f.ifKeepZero) ? push!(f.options.trace, state, f.startIteration, f.startTime) : nothing
     ifWriteIteration(f.options, getFinalIteration(f.options.trace)) ? writeIteration(f.options.write_path, f.optimisationVariable, f.options.trace[end]) : nothing
-    ifPrintIteration(f.options, getFinalIteration(f.options.trace)) ? (println(f.options.io, f.options.trace[end]); flush(f.options.io)) : nothing
+    ifPrintIteration(f.options, getFinalIteration(f.options.trace)) ? println(f.options.io, f.options.trace[end]) : nothing
     ifUpdateFrequency(f.options, getFinalIteration(f.options.trace)) ? updateFrequency(f.cache) : nothing
     return checkResidualConvergence(f.options, f.options.trace[end].objectiveValue) || f.options.callback(f)
 end
