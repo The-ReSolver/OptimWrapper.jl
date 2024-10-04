@@ -19,8 +19,6 @@ include("trace.jl")
 include("printing.jl")
 include("options.jl")
 include("gradientdescent.jl")
-include("write.jl")
-include("read.jl")
 include("callback.jl")
 include("optimise.jl")
 
