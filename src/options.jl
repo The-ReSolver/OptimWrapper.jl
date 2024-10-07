@@ -26,6 +26,8 @@ function getOptimisationStateType(algorithm)
         return FirstOrderOptimisationState
     elseif algorithm isa Optim.NelderMead
         return NelderMeadOptimisationState
+    elseif algorithm isa MyGradientDescent
+        return GradientDescentState
     else
         return GenericOptimisationState
     end

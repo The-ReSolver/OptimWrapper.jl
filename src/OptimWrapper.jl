@@ -2,7 +2,7 @@ module OptimWrapper
 
 using Optim, Printf, Parameters, LineSearches, JLD2, OrderedCollections, LinearAlgebra
 
-export LBFGS, ConjugateGradient, GradientDescent, NelderMead
+export LBFGS, ConjugateGradient, GradientDescent, NelderMead, MyGradientDescent
 
 export HagerZang, MoreThuente, BackTracking, StrongWolfe, Static
 export InitialPrevious, InitialStatic, InitialHagerZhang, InitialQuadratic, InitialConstantChange
