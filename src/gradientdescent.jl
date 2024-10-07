@@ -1,7 +1,5 @@
 # Definitions for a simple gradient descent as a fall-back when Optim.jl routines throw a little fit.
 
-# TODO: add period to trace and printing
-
 struct MyGradientDescent <: Optim.AbstractOptimizer end
 
 function gd!(a, objective, step_size, options::OptOptions)
@@ -20,7 +18,7 @@ function gd!(a, objective, step_size, options::OptOptions)
         i += 1
         iter += 1
         R = objective(grad, a)[1]
-        push!(options.trace.stateVector, convert(GradientDescentState, iter, R, norm(grad)))
+        push!(options.trace.stateVector, convert(GradientDescentState, iter, R, norm(grad), getPeriod(a)))
         options.verbose && iter % options.n_it_print == 0 ? println(options.io, options.trace[end]) : nothing
         options.callback((a, iter)) ? break : nothing
         update!(a, grad, step_size)

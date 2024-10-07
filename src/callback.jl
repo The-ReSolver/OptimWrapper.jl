@@ -28,7 +28,7 @@ end
 
 function (f::Callback)(state)
     updateOptimisationVariable!(f.optimisationVariable, state)
-    ifUpdateTrace(state.iteration, f.ifKeepZero) ? push!(f.options.trace, state, f.startIteration, f.startTime) : nothing
+    ifUpdateTrace(state.iteration, f.ifKeepZero) ? push!(f.options.trace, state, f.startIteration, f.startTime, getPeriod(f.optimisationVariable)) : nothing
     ifPrintIteration(f.options, getFinalIteration(f.options.trace)) ? println(f.options.io, f.options.trace[end]) : nothing
     return checkResidualConvergence(f.options, f.options.trace[end].objectiveValue) || f.options.callback(f)
 end
@@ -36,3 +36,5 @@ end
 updateOptimisationVariable!(optimisationVariable, optimState::Optim.OptimizationState{<:Any, <:Optim.NelderMead}) = (optimisationVariable .= optimState.metadata["centroid"]; return optimisationVariable)
 updateOptimisationVariable!(optimisationVariable, optimState) = (optimisationVariable .= optimState.metadata["x"]; return optimisationVariable)
 ifUpdateTrace(iteration, ifKeepZero) = iteration != 0 || ifKeepZero
+
+getPeriod(::Any) = 0.0
