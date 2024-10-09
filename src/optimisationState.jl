@@ -41,9 +41,10 @@ Base.convert(::Type{NelderMeadOptimisationState}, state, startIteration, startTi
 
 struct GradientDescentState <: AbstractOptimisationState
     iteration::Int
+    stepSize::Float64
     objectiveValue::Float64
     gradientNorm::Float64
     period::Float64
 end
-Base.show(io::IO, x::GradientDescentState) = (@printf io "|%10d   |  %5.5e  |  %5.5e  |    %8.4f   |" x.iteration x.objectiveValue x.gradientNorm x.period; flush(io))
-Base.convert(::Type{GradientDescentState}, iteration, objectiveValue, gradientNorm, period) = GradientDescentState(iteration, objectiveValue, gradientNorm, period)
+Base.show(io::IO, x::GradientDescentState) = (@printf io "|%10d   |   %5.2e  |  %5.5e  |  %5.5e  |    %8.4f   |" x.iteration x.stepSize x.objectiveValue x.gradientNorm x.period; flush(io))
+Base.convert(::Type{GradientDescentState}, iteration, stepSize, objectiveValue, gradientNorm, period) = GradientDescentState(iteration, stepSize, objectiveValue, gradientNorm, period)

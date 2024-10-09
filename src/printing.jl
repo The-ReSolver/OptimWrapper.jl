@@ -25,8 +25,8 @@ function printHeader(io::IO, ::Type{NelderMeadOptimisationState})
 end
 
 function printHeader(io::IO, ::Type{GradientDescentState})
-    println(io, "---------------------------------------------------------------")
-    println(io, "|  Iteration  |   Residual    |   Gradient    |     Period    |")
-    println(io, "---------------------------------------------------------------")
+    println(io, "-----------------------------------------------------------------------------")
+    println(io, "|  Iteration  |  Step Size  |   Residual    |   Gradient    |     Period    |")
+    println(io, "-----------------------------------------------------------------------------")
     flush(io)
 end
