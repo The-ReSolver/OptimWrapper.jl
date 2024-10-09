@@ -1,7 +1,7 @@
 name = "OptimWrapper"
 uuid = "6106e973-e982-47b2-ae8d-956f34fd3e5a"
 authors = ["Thomas Burton <tburton5572@gmail.com>"]
-version = "0.5.1"
+version = "0.6.0"
 
 [deps]
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
