@@ -8,5 +8,6 @@ _optimise!(optimisationVariable, objective, options::OptOptions{MyGradientDescen
 
 function _optimise!(optimisationVariable, objective, algorithm, options::OptOptions{<:Any, S}, optimOptions) where {S}
     options.verbose ? printHeader(options.io, S) : nothing
-    optimize(objective, optimisationVariable, algorithm, optimOptions)
+    res = optimize(objective, optimisationVariable, algorithm, optimOptions)
+    return optimisationVariable, options.trace, res
 end
