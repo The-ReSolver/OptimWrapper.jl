@@ -42,9 +42,6 @@ function getOptimisationStateType(algorithm)
     end
 end
 
-ifPrintIteration(options, iteration) = options.verbose && iteration % options.n_it_print == 0
-checkResidualConvergence(options::OptOptions, value) = value < options.res_tol
-
 genOptimOptions(options, callback) = Optim.Options( g_tol=options.g_tol,
                                                     x_tol=options.x_tol,
                                                     f_tol=options.f_tol,

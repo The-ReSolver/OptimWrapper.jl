@@ -36,5 +36,7 @@ end
 updateOptimisationVariable!(optimisationVariable, optimState::Optim.OptimizationState{<:Any, <:Optim.NelderMead}) = (optimisationVariable .= optimState.metadata["centroid"]; return optimisationVariable)
 updateOptimisationVariable!(optimisationVariable, optimState) = (optimisationVariable .= optimState.metadata["x"]; return optimisationVariable)
 ifUpdateTrace(iteration, ifKeepZero) = iteration != 0 || ifKeepZero
+ifPrintIteration(options, iteration) = options.verbose && iteration % options.n_it_print == 0
+checkResidualConvergence(options::OptOptions, value) = value < options.res_tol
 
 getPeriod(::Any) = 0.0
